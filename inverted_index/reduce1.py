@@ -25,7 +25,7 @@ with open("total_document_count.txt") as infile:
 
 def reduce_one_group(key, group):
     """Reduce one group."""
-    group = list(group) #needed?
+    group = list(group) #needed? not iterated over more than once
     nk = 0
     docs = []
     for line in group:
@@ -39,7 +39,7 @@ def reduce_one_group(key, group):
         docs.append(doc_tuple)
 
     val_dict = {"N": N, "nk": nk, "docs": docs}
-    sys.stdout.write(f"{key}\t{val_dict}\n")
+    sys.stdout.write(f"{key}\t{json.dumps(val_dict)}\n")
 
 
 
