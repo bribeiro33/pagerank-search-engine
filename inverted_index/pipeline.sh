@@ -17,7 +17,7 @@ set -Eeuo pipefail
 # Optional input directory argument
 PIPELINE_INPUT=input
 if [ -n "${1-}" ]; then
-	PIPELINE_INPUT="$1"
+    PIPELINE_INPUT="$1"
 fi
 
 # Print commands
@@ -28,24 +28,24 @@ rm -rf output output[0-9]
 
 # Job 0: Document Count (this job is not part of the pipeline)
 madoop \
-	-input ${PIPELINE_INPUT} \
-	-output output0 \
-	-mapper ./map0.py \
-	-reducer ./reduce0.py
+    -input ${PIPELINE_INPUT} \
+    -output output0 \
+    -mapper ./map0.py \
+    -reducer ./reduce0.py
 
 # Copy document count to a separate file
 cp output0/part-00000 total_document_count.txt
 
 # Job 1
 madoop \
-	-input ${PIPELINE_INPUT} \
-	-output output1 \
-	-mapper ./map1.py \
-	-reducer ./reduce1.py
+    -input ${PIPELINE_INPUT} \
+    -output output1 \
+    -mapper ./map1.py \
+    -reducer ./reduce1.py
 
 # Job 2
 madoop \
-	-input output1 \
-	-output output2 \
-	-mapper ./map2.py \
-	-reducer ./reduce2.py
+    -input output1 \
+    -output output2 \
+    -mapper ./map2.py \
+    -reducer ./reduce2.py

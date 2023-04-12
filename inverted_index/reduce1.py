@@ -7,12 +7,10 @@ grouped: by ti
 key: t1 val: {"doc_id": doc_id_a, "count": 1, "doc_text": doc_text_a}
 key: t1 val: {"doc_id": doc_id_b, "count": 1, "doc_text": doc_text_b}
 key: t2 val: {"doc_id": doc_id_a, "count": 1, "doc_text": doc_text_a}
-
 output:
 key: t1 val: {"N": N, "nk": n1, 
               "docs": [(doc_id_a, doc_text_a), (doc_id_b, doc_text_b)]}
 key: t2 val: {"N": N, "nk": n2, "docs": [(doc_id_a, doc_text_b)]}
-
 """
 import sys
 import itertools
