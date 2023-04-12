@@ -14,6 +14,7 @@ key: t2 val: {"N": N, "nk": n2, "docs": [(doc_id_a, doc_text_b)]}
 """
 import sys
 import itertools
+import json
 
 # Find all docs that contain ti for all i 
 # sorted docs by id
@@ -29,14 +30,16 @@ def reduce_one_group(key, group):
     docs = []
     for line in group:
         # increase nk by count
-        value = line.split("\t")[1] #val should be a dict
+        value = line.split("\t")[1]
+        value_dict = json.loads(value) #  converts to dict
         # Add value to total_count (sould increment by one)
-        nk += value.count
+        nk += value_dict['count']
         # add doc_id and doc_text to docs
-        docs.append[(value.doc_id, value.doc_text)]
+        doc_tuple = (value_dict['doc_id'], value_dict['doc_text'])
+        docs.append(doc_tuple)
 
     val_dict = {"N": N, "nk": nk, "docs": docs}
-    sys.stdout.write(f"{key}\n{val_dict}")
+    sys.stdout.write(f"{key}\t{val_dict}\n")
 
 
 
