@@ -9,7 +9,7 @@ key: t1 val: {"doc_id": doc_id_b, "count": 1, "doc_text": doc_text_b}
 key: t2 val: {"doc_id": doc_id_a, "count": 1, "doc_text": doc_text_a}
 output:
 key: t1 val: {"N": N, "nk": n1, 
-              "docs": [(doc_id_a, doc_text_a), (doc_id_b, doc_text_b)]}
+              "docs": [[doc_id_a, doc_text_a], [doc_id_b, doc_text_b]]}
 key: t2 val: {"N": N, "nk": n2, "docs": [(doc_id_a, doc_text_b)]}
 """
 import sys
@@ -35,8 +35,8 @@ def reduce_one_group(key, group):
         # Add value to total_count (sould increment by one)
         nk += value_dict['count']
         # add doc_id and doc_text to docs
-        doc_tuple = (value_dict['doc_id'], value_dict['doc_text'])
-        docs.append(doc_tuple)
+        doc_ids = value_dict['doc_id']
+        docs.append(doc_ids)
 
     val_dict = {"N": N, "nk": nk, "docs": docs}
     sys.stdout.write(f"{key}\t{json.dumps(val_dict)}\n")
