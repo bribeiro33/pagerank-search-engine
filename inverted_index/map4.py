@@ -1,36 +1,28 @@
 #!/usr/bin/env python3
 """Map 4.
 Make key doc_i, find  di [norm factor] in reduce.
+
 input: 
-key: t1 val: {"docs": [[doc_id_i, tfik]], "idfk": idfk, "tk": t1}
-key: t2 val: {"docs": [[doc_id_i, tfik], [doc_id_j, tfjk]], "idfk": idfk,
-              "tk": t2}
+key: t1 val: {"docs": [doc_id_i, tfik], "idfk": idfk}
+key: t2 val: {"docs": [doc_id_i, tfik], "idfk": idfk}
+key: t2 val: {"docs": [doc_id_j, tfjk], "idfk": idfk}
 
 e.g. of INPUT
-d3js	{"docs": [["1", 1]], "idfk": 0.47712125471966244, "tk": "d3js"}
-document	{"docs": [["1", 2], ["2", 1], ["3", 1]], "idfk": 0.0, 
-            "tk": "document"}
+d3js	{"docs": ["1", 1], "idfk": 0.47712125471966244}
+document	{"docs": ["1", 2], "idfk": 0.0}
+document	{"docs": ["2", 1], "idfk": 0.0}
+document	{"docs": ["3", 1], "idfk": 0.0}
 
-# this might be incredibly inefficient but we'll see
-# ugly but it works
 output: 
-key: doc1 val: [{"docs": [[doc_id_1, tfik], [doc_id_j, tfjk]], "idfk": idfk,
-                 "tk": t2}], [{"nk": n1, "docs": [[doc_id_1, tfik]], 
-                 "idfk": idfk, "tk": t1}]
-
-key: doc3 val: [{"docs": [[doc_id_1, tfik], [doc_id_j, tfjk]], "idfk": idfk,
-                 "tk": t2}]
+key: docid_1 val: t_k tf(1)k idfk}
+key: docid_2 val: t_k tf(2)k idfk}
+key: docid_2 val: t_l tf(2)k idfl}
 
 e.g. of OUTPUT
-3	[{"docs": [["1", 2], ["2", 1], ["3", 1]], "idfk": 0.0, "tk": "document"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "fine"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "forgetting"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "hear"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "heard"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "laurence"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "originality"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "peter"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "remembering"}]
+2	document 1 0.0
+3	document 1 0.0
+3	fine 1 0.47712125471966244
+
 
 """
 import sys 
@@ -57,4 +49,11 @@ import json
 for line in sys.stdin:
     key, value = line.split("\t")
     value_dict = json.loads(value) 
-    print(f"{value_dict[]}\t{term} {idf} {tf}")
+    # the new key is the doc id
+    docid = value_dict['docs'][0]
+    # We're going to have to print out with just spaces b/w, 
+    # so now ur strat is better
+    term = key
+    tf = value_dict['docs'][1]
+    idf = value_dict['idfk']
+    sys.stdout.write(f"{docid}\t{term} {tf} {idf}\n")
