@@ -14,16 +14,14 @@ document	{"docs": ["2", 1], "idfk": 0.0}
 document	{"docs": ["3", 1], "idfk": 0.0}
 
 output: 
-key: docid_1 val: t_k tf(1)k idfk}
-key: docid_2 val: t_k tf(2)k idfk}
-key: docid_2 val: t_l tf(2)k idfl}
+key: docid_1 val: t_k tf(1)k idfk
+key: docid_2 val: t_k tf(2)k idfk
+key: docid_2 val: t_l tf(2)k idfl
 
 e.g. of OUTPUT
 2	document 1 0.0
 3	document 1 0.0
 3	fine 1 0.47712125471966244
-
-
 """
 import sys 
 import json

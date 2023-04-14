@@ -1,79 +1,48 @@
 #!/usr/bin/env python3
 """Reduce 4.
 Calc |di| e.i. norm factor. 
-output: 
-key: doc1 val: [{"docs": [[doc_id_1, tfik], [doc_id_j, tfjk]], "idfk": idfk,
-                 "tk": t2}], [{"nk": n1, "docs": [[doc_id_1, tfik]], 
-                 "idfk": idfk, "tk": t1}]
+input: 
+key: docid_1 val: t_k tf(1)k idfk
+key: docid_2 val: t_k tf(2)k idfk
+key: docid_2 val: t_l tf(2)k idfl
 
-key: doc3 val: [{"docs": [[doc_id_1, tfik], [doc_id_j, tfjk]], "idfk": idfk,
-                 "tk": t2}]
+output:
+key: term_k val: idf_k docid_i tf_ki norm_fac_i
+key: term_l val: idf_l docid_j tf_lj norm_fac_j
+
+e.g. of INPUT
+2	document 1 0.0
+3	document 1 0.0
+3	fine 1 0.47712125471966244
 
 e.g. of OUTPUT
-3	[{"docs": [["1", 2], ["2", 1], ["3", 1]], "idfk": 0.0, "tk": "document"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "fine"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "forgetting"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "hear"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "heard"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "laurence"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "originality"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "peter"}, 
-     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "remembering"}]
+cool	0.47712125471966244 1 1 1.138223458526325
+d3js	0.47712125471966244 1 1 1.138223458526325
+document	0.0 1 2 1.138223458526325
+...
+document	0.0 2 1 1.593512841936855
 """
-
 import sys
 import itertools
-import json
-import math
 
-# Calculate idfk
-
+# Calculate norm factor 
+# 1) For each term, perform (tf * idf)^2
+# 2) Add up all those values
+# 3) don't perform sqrt for inverted index
 def reduce_one_group(key, group):
     """Reduce one group."""
-    group = list(group)
-    #print(group)
-    # TODO: mlorp fix me
-    # Each line is a term, then the file info
-    # The number of lines in the group = the number of times 
-    # the term appears in the doc
-    # log(a,Base)
-    
-    # Don't do this, we aren't allowed to read in from a separate file
-    # past map 0 and 1. N is stored in the value dict
-    # file_count = 0
-    # with open("total_document_count.txt", "r") as file:
-    #     file_count = float(file.readline())
-    val_dict = {} # need to globalize?
-    nk = 0
-    docs = []
-    # so copy over all the stuff
-    # not changing anything, but also calcing tfik
+    group = list(group) # required, as have to iterate trhough twice
+    norm_fac = 0
+    # the group is all the terms in the doc
+    # each line is a term
     for line in group:
-        # doc = line.strip()
-        # doc = line.split()
-        # term = doc[0].strip()
-        # nk = doc[1].strip()
-        # docid = doc[2].strip()
-        # tfik = doc[3].strip()
-        # easier way, not as much stripping and if we change the order of 
-        # the vars in earlier files, we won't have to change the indexes here: 
+        # docid, term, tf, idf
+        _, _, tf, idf = line.split()
+        norm_fac += (float(tf) * float(idf)) ** 2
 
-        value = line.split("\t")[1]
-        val_dict = json.loads(value)
-        # increment nk as the number of docs with tk = num of lines in group
-        nk += 1
-        # append this line's docs to docs to bring all tk's docs back together
-        docs.append(val_dict['docs'])
-
-    # Update docs in the dict with the new, complete doc list 
-    val_dict['docs'] = docs
-    # length of group list is # docs thatre containing the term 
-    # cause each list item is for a doc that contains the term
-    idfk = math.log((val_dict['N'] / len(val_dict['docs'])), 10)
-    val_dict['idfk'] = idfk
-    # delete N from dict as we no longer need it 
-    del val_dict['N']
-    sys.stdout.write(f"{key}\t{json.dumps(val_dict)}\n")
+    for line in group: 
+        docid, term, tf, idf = line.split()
+        sys.stdout.write(f"{term}\t{idf} {docid} {tf} {norm_fac}\n")
 
 def keyfunc(line):
     """Return the key from a TAB-delimited key-value pair."""
