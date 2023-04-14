@@ -56,3 +56,10 @@ madoop \
     -output output3 \
     -mapper ./map3.py \
     -reducer ./reduce3.py
+
+# Job 4
+madoop \
+    -input output3 \
+    -output output4 \
+    -mapper ./map4.py \
+    -reducer ./reduce4.py

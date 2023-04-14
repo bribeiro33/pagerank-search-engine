@@ -19,8 +19,8 @@ document	{"N": 3, "nk": 4, "docs": ["2", 1]}
 document	{"N": 3, "nk": 4, "docs": ["3", 1]}
 
 e.g. of OUTPUT
-d3js	{"docs": [["1", 1]], "idfk": 0.47712125471966244}
-document	{"docs": [["1", 2], ["2", 1], ["3", 1]], "idfk": 0.0}
+d3js	{"nk": 1, "docs": [["1", 1]], "idfk": 0.47712125471966244}
+document	{"nk": 4, "docs": [["1", 2], ["2", 1], ["3", 1]], "idfk": 0.0}
 """
 
 import sys
@@ -73,13 +73,8 @@ def reduce_one_group(key, group):
     # cause each list item is for a doc that contains the term
     idfk = math.log((val_dict['N'] / len(val_dict['docs'])), 10)
     val_dict['idfk'] = idfk
-    # delete N and nk from dict as we no longer need it 
+    # delete N from dict as we no longer need it 
     del val_dict['N']
-    del val_dict['nk']
-    val_dict['tk'] = key
-    # trying smthg? adding tk to value as well
-    val_dict['tk'] = key
-    
     sys.stdout.write(f"{key}\t{json.dumps(val_dict)}\n")
 
 def keyfunc(line):
