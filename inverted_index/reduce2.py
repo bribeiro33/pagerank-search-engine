@@ -22,7 +22,6 @@ import sys
 import itertools
 import json
 import re
-
 # Calculate tfik
 
 def reduce_one_group(key, group):
