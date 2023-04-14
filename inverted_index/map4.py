@@ -26,24 +26,6 @@ e.g. of OUTPUT
 import sys 
 import json
 
-# # all the doc ids 
-# documents = {}
-# # each line is a different term
-# for line in sys.stdin: 
-#     key, value = line.split("\t")
-#     value_dict = json.loads(value) 
-
-#     # loop over each doc in docs 
-#     for doc in value_dict['docs']:
-#         docid = doc[0]
-#         if docid in documents: 
-#             documents[docid].append(value_dict)
-#         else: 
-#             documents[docid] = []
-
-# for docid, doc_content in documents.items(): 
-#     sys.stdout.write(f"{docid}\t{json.dumps(doc_content)}\n")
-
 for line in sys.stdin:
     key, value = line.split("\t")
     value_dict = json.loads(value) 
