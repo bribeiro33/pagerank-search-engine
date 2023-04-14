@@ -68,19 +68,18 @@ def reduce_one_group(key, group):
         docs.append(val_dict['docs'])
 
     # Update docs in the dict with the new, complete doc list 
-    val_dict['docs'] = docs
+    #val_dict['docs'] = docs
     # length of group list is # docs thatre containing the term 
     # cause each list item is for a doc that contains the term
-    idfk = math.log((val_dict['N'] / len(val_dict['docs'])), 10)
+    idfk = math.log((val_dict['N'] / len(docs)), 10)
     val_dict['idfk'] = idfk
     # delete N and nk from dict as we no longer need it 
     del val_dict['N']
     del val_dict['nk']
-    val_dict['tk'] = key
-    # trying smthg? adding tk to value as well
-    val_dict['tk'] = key
-    
-    sys.stdout.write(f"{key}\t{json.dumps(val_dict)}\n")
+
+    for doc in docs: 
+        val_dict['docs'] = doc
+        sys.stdout.write(f"{key}\t{json.dumps(val_dict)}\n")
 
 def keyfunc(line):
     """Return the key from a TAB-delimited key-value pair."""

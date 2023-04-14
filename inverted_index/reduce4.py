@@ -1,26 +1,24 @@
 #!/usr/bin/env python3
-"""Reduce 3.
-Calc idfk = log(n/nk)
-input: 
-key: t1 val: {"N": N, "nk": n1, 
-              "docs": [doc_id_i, tfik]}
-key: t2 val: {"N": N, "nk": n2, "docs": [doc_id_j, tfjk]}
-
+"""Reduce 4.
+Calc |di| e.i. norm factor. 
 output: 
-key: t1 val: {"nk": n1, 
-              "docs": [[doc_id_i, tfik]], "idfk": idfk}
-key: t2 val: {"nk": n2,
-              "docs": [[doc_id_i, tfik], [doc_id_j, tfjk]], "idfk": idfk}
+key: doc1 val: [{"docs": [[doc_id_1, tfik], [doc_id_j, tfjk]], "idfk": idfk,
+                 "tk": t2}], [{"nk": n1, "docs": [[doc_id_1, tfik]], 
+                 "idfk": idfk, "tk": t1}]
 
-e.g. of INPUT 
-d3js	{"N": 3, "nk": 1, "docs": ["1", 1]}
-document	{"N": 3, "nk": 4, "docs": ["1", 2]}
-document	{"N": 3, "nk": 4, "docs": ["2", 1]}
-document	{"N": 3, "nk": 4, "docs": ["3", 1]}
+key: doc3 val: [{"docs": [[doc_id_1, tfik], [doc_id_j, tfjk]], "idfk": idfk,
+                 "tk": t2}]
 
 e.g. of OUTPUT
-d3js	{"nk": 1, "docs": [["1", 1]], "idfk": 0.47712125471966244}
-document	{"nk": 4, "docs": [["1", 2], ["2", 1], ["3", 1]], "idfk": 0.0}
+3	[{"docs": [["1", 2], ["2", 1], ["3", 1]], "idfk": 0.0, "tk": "document"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "fine"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "forgetting"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "hear"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "heard"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "laurence"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "originality"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "peter"}, 
+     {"docs": [["3", 1]], "idfk": 0.47712125471966244, "tk": "remembering"}]
 """
 
 import sys
