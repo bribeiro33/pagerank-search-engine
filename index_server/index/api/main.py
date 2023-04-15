@@ -7,6 +7,15 @@ import index
 
 # Globals: stopwords (set), pagerank (dict), inverted_index (dict)
 # Might need to 
+@index.app.route("/api/v1/", methods=["GET"])
+def get_services():
+    """Return a list of services available"""
+    context = {
+        "hits": "/api/v1/hits/",
+        "url": "/api/v1/"
+    }
+    return jsonify(**context)
+
 def load_index():
     """Load inverted index, pagerank, and stopwords into memory."""
     index_dir = pathlib.Path(__file__).parent.parent
