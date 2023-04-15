@@ -99,7 +99,7 @@ def get_hits():
     dirty_query = request.args.get("q")
     weight = float(request.args.get("w", default=0.5))
     clean_query = query_cleaning(dirty_query)
-    
+    hit_results = get_hits(clean_query, weight)
     context = {"hits": hit_results}
     return jsonify(**context)
 
@@ -118,3 +118,19 @@ def query_cleaning(dirty_query):
     # Remove stop words.
     clean_query = [word for word in query_list if word not in stopwords]
     return clean_query
+
+def get_results(clean_query, weight):
+    # Find all the segments with the query words
+    segments = seach_index(clean_query)
+    # 
+
+def search_index(query):
+    # Have to search concurrently, so need three threads
+    # 1 dict for each segment/thread
+    # {"term": "line in doc", "term": "line in doc", etc}
+    segment_dict = {}
+    for term in query: 
+        if term in inverted_index:
+            segment_dict[term] = inverted_index[term]
+
+    return segment_dict
