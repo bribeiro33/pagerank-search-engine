@@ -121,7 +121,7 @@ def query_cleaning(dirty_query):
 
 def get_results(clean_query, weight):
     # Find all the segments with the query words
-    segments = seach_index(clean_query)
+    segments = search_index(clean_query)
     # 
 
 def search_index(query):
