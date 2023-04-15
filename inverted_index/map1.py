@@ -30,4 +30,4 @@ for line in csv.reader(sys.stdin):
     # If term, post_cleaning, is in doc --> <term, doc_id>
     for term in text_list:
         val_dict = {"doc_id": doc_id, "count": 1, "doc_text": text_list}
-        print(f'{term}\t{json.dumps(val_dict)}')
+        sys.stdout.write(f'{term}\t{json.dumps(val_dict)}\n')

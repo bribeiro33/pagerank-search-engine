@@ -42,7 +42,6 @@ def reduce_one_group(key, group):
     sys.stdout.write(f"{key}\t{json.dumps(val_dict)}\n")
 
 
-
 def keyfunc(line):
     """Return the key from a TAB-delimited key-value pair."""
     return line.split()[0]

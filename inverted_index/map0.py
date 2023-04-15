@@ -9,4 +9,4 @@ import sys
 csv.field_size_limit(sys.maxsize)
 # Read input from the "/input" directory
 for line in csv.reader(sys.stdin):
-    print(f"file\t1")
+    sys.stdout.write(f"file\t1\n")
