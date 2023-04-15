@@ -12,10 +12,11 @@ import subprocess
 import time
 import urllib
 from pathlib import Path
-import pytest
-import utils
-import search
+
 import index
+import pytest
+import search
+import utils
 
 # Set up logging
 LOGGER = logging.getLogger("autograder")
