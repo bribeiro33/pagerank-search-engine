@@ -6,7 +6,7 @@ from flask import jsonify, request
 import index
 
 # Globals: stopwords (set), pagerank (dict), inverted_index (dict)
-
+# Might need to 
 def load_index():
     """Load inverted index, pagerank, and stopwords into memory."""
     index_dir = pathlib.Path(__file__).parent.parent
@@ -59,21 +59,25 @@ def load_inverted_index(index_dir):
     inverted_index_file = index_dir / "inverted_index" / index_file_config
     with open(str(inverted_index_file), 'r', encoding='utf-8') as infile:
         for line in infile:
-            term_info_list = line.strip().split()
-            term_name = term_info_list[0]
-            idf_k = term_info_list[1]
+            # Each item is separated by a space
+            index_list = line.strip().split()
+            term_name = index_list[0]
+            idf = index_list[1]
+            # doc specific info starts at [2] and contains 3 items for each doc
             counter = 2
-            term_appears = []
-            while counter < len(term_info_list):
-                curr_appear = {
-                    "doc_id": term_info_list[counter],
-                    "tf_ik": int(term_info_list[counter + 1]),
-                    "norm": float(term_info_list[counter + 2])
+            # keep track of all doc triples for the term
+            # docs is a list of dicts 
+            docs = []
+            while counter < len(index_list):
+                curr_doc_triple = {
+                    "docid": index_list[counter],
+                    "tf": int(index_list[counter + 1]),
+                    "norm_fac": float(index_list[counter + 2])
                 }
-                term_appears.append(curr_appear)
+                docs.append(curr_doc_triple)
                 counter += 3
-            term_context = {
-                "idf_k": idf_k,
-                "term_info_appear": term_appears
+            term_value = {
+                "idf": idf,
+                "docs": docs
             }
-            inverted_index[term_name] = term_context
+            inverted_index[term_name] = term_value
