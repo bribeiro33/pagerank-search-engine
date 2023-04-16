@@ -21,8 +21,8 @@ def get_index(query, weight, index_url, search_results):
 def show_index():
     """Display / route and search results."""
 
-    query = request.args.get('q', type=str)
-    weight = request.args.get('w', default=0.5, type=float)
+    query = request.args.get('q')
+    weight = float(request.args.get('w', default=0.5))
 
     # If empty query
     if query is None:
@@ -77,4 +77,4 @@ def show_index():
             "weight": weight
         }
 
-        return flask.render_template("index.html", **context)
+        return render_template("index.html", **context)
