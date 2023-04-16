@@ -32,22 +32,22 @@
                 {% else %}
                 <!-- show max the top 10 docs in ranked order-->
                 {% for doc in search_results %}
-                <div class="doc">
-                    <!-- if the document exists -->
-                    {% if doc.url %}
-                        <a class="doc_url" href="{{doc.url}}">{{doc.url}}</a>
-                    {% else %}
-                        <a class="doc_url">No url available</a>
-                    {% endif %}
-                    <div class="doc_title">{{doc.title}}</div>
-                    {% if doc.summary%}
-                        <div class="doc_summary">{{doc.summary}}</div>
-                    {% else %}
-                        <div class="doc_summary"> No summary available </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-            {%endif%}
+                    <div class="doc">
+                        <!-- if the document exists -->
+                        {% if doc.url %}
+                            <a class="doc_url" href="{{doc.url}}">{{doc.url}}</a>
+                        {% else %}
+                            <a class="doc_url">No url available</a>
+                        {% endif %}
+                        <div class="doc_title">{{doc.title}}</div>
+                        {% if doc.summary%}
+                            <div class="doc_summary">{{doc.summary}}</div>
+                        {% else %}
+                            <div class="doc_summary"> No summary available </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {%endif%} <!-- what is this closing?-->
             </div>
         </div>
     </div>
