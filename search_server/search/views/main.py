@@ -1,7 +1,7 @@
 """Search Server views/main.py"""
 
 import heapq
-from threading import Thread, Event, Lock
+from threading import Thread, Event
 
 import flask
 import requests
