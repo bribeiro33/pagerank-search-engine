@@ -6,7 +6,7 @@ import itertools
 # The output should be a single integer.
 
 
-def reduce_one_group(key, group):
+def reduce_one_group(group):
     """Reduce one group."""
     total_count = 0
     group = list(group)  # not sure if necessary
@@ -25,8 +25,8 @@ def keyfunc(line):
 
 def main():
     """Divide sorted lines into groups that share a key."""
-    for key, group in itertools.groupby(sys.stdin, keyfunc):
-        reduce_one_group(key, group)
+    for _, group in itertools.groupby(sys.stdin, keyfunc):
+        reduce_one_group(group)
 
 
 if __name__ == "__main__":

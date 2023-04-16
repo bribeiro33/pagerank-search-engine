@@ -6,12 +6,12 @@ import sys
 import json
 
 # Stop words: list of stop words in inverted_index/stopwords.txt
-with open('stopwords.txt') as infile:
+with open('stopwords.txt', encoding="utf-8") as infile:
     # strip and casefold redundant, as no extra whitspace or capitals
     stop_words = set(infile.read().split('\n'))
 
-with open("total_document_count.txt") as infile:
-    N = int(infile.read())
+with open("total_document_count.txt", encoding="utf-8") as infile:
+    doc_count = int(infile.read())
 
 # 1. Data clean
 # 2. Organize terms to find all docs that contain a term in reduce
@@ -33,4 +33,4 @@ for line in csv.reader(sys.stdin):
     # If term, post_cleaning, is in doc --> <term, doc_id>
     for term in text_list:
         val_dict = {"doc_id": doc_id, "count": 1, "doc_text": text_list}
-        sys.stdout.write(f'{term}\t{N} {json.dumps(val_dict)}\n')
+        sys.stdout.write(f'{term}\t{doc_count} {json.dumps(val_dict)}\n')

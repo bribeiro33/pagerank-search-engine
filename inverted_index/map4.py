@@ -35,6 +35,6 @@ for line in sys.stdin:
     # We're going to have to print out with just spaces b/w,
     # so now ur strat is better
     term = key
-    tf = value_dict['docs'][1]
+    t_f = value_dict['docs'][1]
     idf = value_dict['idfk']
-    sys.stdout.write(f"{docid}\t{term} {tf} {idf}\n")
+    sys.stdout.write(f"{docid}\t{term} {t_f} {idf}\n")

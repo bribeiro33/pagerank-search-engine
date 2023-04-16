@@ -3,20 +3,20 @@
 
 Calculate tfik (# times a termk appears in doci)
 input:
-key: t1 val: {"N": N, "nk": n1,
+key: t1 val: {"N": N, "n_k": n1,
               "docs": [doc_id_a, doc_id_b]}
-key: t2 val: {"N": N, "nk": n2, "docs": [doc_id_a]}
+key: t2 val: {"N": N, "n_k": n2, "docs": [doc_id_a]}
 
 output:
-key: t1 val: {"N": N, "nk": n1,
+key: t1 val: {"N": N, "n_k": n1,
               "docs": [doc_id_i, tfik]}
-key: t2 val: {"N": N, "nk": n2, "docs": [doc_id_j, tfjk]}
+key: t2 val: {"N": N, "n_k": n2, "docs": [doc_id_j, tfjk]}
 
 e.g.
-d3js	{"N": 3, "nk": 1, "docs": ["1", 1]}
-document	{"N": 3, "nk": 4, "docs": ["1", 2]}
-document	{"N": 3, "nk": 4, "docs": ["2", 1]}
-document	{"N": 3, "nk": 4, "docs": ["3", 1]}
+d3js	{"N": 3, "n_k": 1, "docs": ["1", 1]}
+document	{"N": 3, "n_k": 4, "docs": ["1", 2]}
+document	{"N": 3, "n_k": 4, "docs": ["2", 1]}
+document	{"N": 3, "n_k": 4, "docs": ["3", 1]}
 """
 import sys
 import itertools

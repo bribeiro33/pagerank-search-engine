@@ -3,14 +3,14 @@
 
 Make key term and doc_id tuple, find tfik in reduce.
 input:
-key: t1 val: {"N": N, "nk": n1,
+key: t1 val: {"N": N, "n_k": n1,
               "docs": [doc_id_a, doc_id_b]}
-key: t2 val: {"N": N, "nk": n2, "docs": [doc_id_a]}
+key: t2 val: {"N": N, "n_k": n2, "docs": [doc_id_a]}
 
 output:
-key: (t1, doc_id_a) val: {"N": N, "nk": n1,
+key: (t1, doc_id_a) val: {"N": N, "n_k": n1,
               "docs": [[doc_id_a, doc_text_a], [doc_id_b, doc_text_b]]}
-key: (t1, doc_id_b) val: {"N": N, "nk": n2, "docs": [[doc_id_a, doc_text_b]]}
+key: (t1, doc_id_b) val: {"N": N, "n_k": n2, "docs": [[doc_id_a, doc_text_b]]}
 
 """
 import sys
