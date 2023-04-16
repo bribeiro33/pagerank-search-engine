@@ -281,8 +281,8 @@ def dot_prod(vec_a, vec_b):
         raise ValueError("Vectors must have the same length, error earlier")
 
     dot_product = 0
-    for i in range(len(vec_a)):
-        dot_product += vec_a[i] * vec_b[i]
+    for i, elem in enumerate(vec_a):
+        dot_product += elem * vec_b[i]
     return dot_product
 
 
