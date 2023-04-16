@@ -52,6 +52,7 @@ def show_index():
 
 
         # Need all results from 3 api requests before merging the results
+        event.wait()
         for thread in threads:
             thread.join()
 
