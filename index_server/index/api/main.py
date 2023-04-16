@@ -44,9 +44,6 @@ def load_index():
 
 def load_stopwords(index_dir):
     """Load the stopwords.txt file into stopwords."""
-    # Create global var to be accessed in calc funcs later
-    global stopwords
-    stopwords = set()
     # Get correct path: /index/stopwords.txt
     stopwords_file = index_dir / "stopwords.txt"
     with open(str(stopwords_file), 'r', encoding='utf-8') as infile:
@@ -58,9 +55,6 @@ def load_stopwords(index_dir):
 
 def load_pagerank(index_dir):
     """Load the pagerank.out file into pagerank."""
-    # Create global var to be accessed in calc funcs later
-    global pagerank
-    pagerank = {}
     # Get correct path: /index/pagerank.out
     pagerank_file = index_dir / "pagerank.out"
     with open(str(pagerank_file), 'r', encoding='utf-8') as infile:
@@ -76,9 +70,6 @@ def load_pagerank(index_dir):
 
 def load_inverted_index(index_dir):
     """Read the inverted_index.txt file, based on the configured envvar."""
-    global inverted_index
-    inverted_index = {}
-
     # which index_path was set is the index file of inverted index to read frm
     # e.g. inverted_index_0.txt
     index_file_config = index.app.config["INDEX_PATH"]
@@ -114,7 +105,6 @@ def load_inverted_index(index_dir):
 # -----------------     get_hits helpers   ----------------- #
 def query_cleaning(dirty_query):
     """Clean the query (alpha-numeric, case insensitive, no stopwords)."""
-    global stopwords
     # Remove non-alphanumeric characters (that also aren’t spaces) like this:
     query = re.sub(r"[^a-zA-Z0-9 ]+", "", dirty_query)
     # Remove extra whitespace
@@ -181,7 +171,6 @@ def count_query_tf(query):
 def get_query_docs(query):
     """Get all the docs that contain all of the query terms and idfs."""
     # inverted_index: {"term": "line in doc", "term": "line in doc", etc}
-    global inverted_index
 
     docs_combined = []
     for term in query:
@@ -207,7 +196,6 @@ def get_query_docs(query):
 
 def calc_query_vector(query):
     """Calculate query vector using query term frequencies and idfs."""
-    global inverted_index
     # The query vector has one position for each term.
     # Each position is calculated as tf in query * idf
     query_vector = []
@@ -225,7 +213,6 @@ def calc_query_vector(query):
 
 def calc_doc_vector(all_docid_set, query_dict):
     """Calculate all the document vectors for all the docs in the set."""
-    global inverted_index
     # The document vector has one position for each term
     # Each position in the vector is calculated as tf in doc i * idf
     all_docs_dict = {}
@@ -258,7 +245,6 @@ def calc_doc_vector(all_docid_set, query_dict):
 
 def calc_tf_idf(query_vec, doc_vec_dict):
     """Calculate the tf-idf score for all the documents."""
-    global inverted_index
     tf_idf_dict = {}
 
     for docid, value in doc_vec_dict.items():
@@ -275,7 +261,6 @@ def calc_tf_idf(query_vec, doc_vec_dict):
 
 def calc_weighted_score(tf_idf_dict, weight):
     """Calc the weighted score for each doc w/ pagerank, tfidf, and weight."""
-    global pagerank
     weighted_scores = []
     for docid, tf_idf in tf_idf_dict.items():
         pagerank_score = pagerank[docid]
