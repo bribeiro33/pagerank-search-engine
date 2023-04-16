@@ -19,10 +19,6 @@ import json
 # Find all docs that contain ti for all i 
 # sorted docs by id
 
-with open("total_document_count.txt") as infile:
-    N = int(infile.read())
-
-
 def reduce_one_group(key, group):
     """Reduce one group."""
     group = list(group) #needed? not iterated over more than once
@@ -31,9 +27,12 @@ def reduce_one_group(key, group):
     N = 0
     for line in group:
         # increase nk by count
-        value = line.split("\t")[1]
+        key, value = line.split("\t")
         # Split at the space to separate N from the dict
-        N, val_dic = value.partition(" ")
+        output_parts = value.strip().split(' ', 1)
+        N = int(output_parts[0])
+        val_dic = output_parts[1]
+
         value_dict = json.loads(val_dic) #  converts to dict
         # Add value to total_count (sould increment by one)
         nk += value_dict['count']
