@@ -28,7 +28,6 @@ def test_multiple_terms(index_client):
     ]
     utils.assert_rest_api_hit_eq(hits_actual, hits_solution)
 
-
 def test_special_characters(index_client):
     """Special characters in query.
 

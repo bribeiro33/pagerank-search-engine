@@ -153,9 +153,9 @@ def count_query_tf(query):
     for term in query:
         # The frequency will be stored in [0] in the term's value's list
         if term in term_dict:
-            term_dict[term][0] += 1
+            term_dict[term] += 1
         else: 
-            term_dict[term] = [1]
+            term_dict[term] = 1
     return term_dict
 
 def get_query_docs(query):
@@ -167,7 +167,7 @@ def get_query_docs(query):
     for term in query: 
         doc_term_set = set()
         if term in inverted_index:
-            _, docs = inverted_index[term]
+            docs = inverted_index[term]['docs']
             # loop through all doc ids and add them to the set of all this 
             # term's documents
             # docid is the key of the dictonary within doc
@@ -193,23 +193,25 @@ def calc_query_vector(query):
     
     for term, freq in query.items():
         # Get the idf from the inverted_index
-        idf = inverted_index[term]["idf"]
+        idf = float(inverted_index[term]["idf"])
         one_position = freq * idf
         query_vector.append(one_position)
+    return query_vector
 
 def calc_doc_vector(all_docid_set, query_dict):
     """Calculate all the document vectors for all the docs in the set."""
     global inverted_index
     # The document vector has one position for each term
     # Each position in the vector is calculated as tf in doc i * idf
-    all_docs_dict = []
+    all_docs_dict = {}
 
-    first_iter = True
     for docid in all_docid_set:
         single_doc_vec = []
+        first_iter = True
+        doc_norm = 0
         # Need all the term's idf and tf in doc i
         for term in query_dict:
-            curr_idf = inverted_index[term]["idf"]
+            curr_idf = float(inverted_index[term]["idf"])
             # Will this work? 
             # idk, if I had time I'd make the dic sys less complicated
             curr_tf = inverted_index[term]["docs"][docid]["tf"]
