@@ -1,0 +1,78 @@
+#!/bin/bash
+# ./search
+
+set -Eeuo pipefail
+#set -x
+
+# Sanity check command line options
+usage() {
+    echo "Usage: $0 (start|stop|restart|status)"
+}
+
+#if not given one command line arg
+if [ $# -ne 1 ]; then
+    usage
+    exit 1
+fi
+
+start_search_server() {
+    # If the database doesn't exist, error out
+    if [ ! -f "var/search.sqlite3" ]; then
+        echo "Error: can't find search database var/search.sqlite3"
+        echo "Try: ./bin/searchdb create"
+        exit 1
+    # If the index server isn't running, error out
+    elif ! ./bin/index status | grep -q "running"; then
+        echo "Error: index server is not running"
+        echo "Try ./bin/index start"
+        exit 1
+    # If the search server is already running, error out
+    elif pgrep -f "flask --app search run --host 0.0.0.0 --port 8000" &> /dev/null; then
+        echo "Error: search server is already running"
+        exit 1
+    else
+        # can start the server
+        echo "starting search server ..."
+        mkdir -p var/log
+        rm -f var/log/search.log
+        flask --app search run --host 0.0.0.0 --port 8000 &> var/log/search.log &
+        flask --app search run --host 0.0.0.0 --port 8000 &> var/log/search.log &
+    fi
+}
+
+stop_search_server() {
+    echo "stopping search server ..."
+    pkill -f 'flask --app search run --host 0.0.0.0 --port 8000' || true
+}
+# Parse argument.  $1 is the first argument
+case $1 in
+    "start")
+        start_search_server
+    ;;
+
+    "stop")
+        stop_search_server
+    ;;
+
+    "restart")
+        stop_search_server
+        start_search_server
+    ;;
+
+    "status")
+        set +o pipefail
+        NPROCS=$(pgrep -f "flask --app search run --host 0.0.0.0 --port 800" | wc -l)
+        set -o pipefail
+        if [ "$NPROCS" -eq 1 ]; then
+            echo "search server running"
+            exit 0
+        else
+            echo "search server stopped"
+            exit 1
+        fi
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac
