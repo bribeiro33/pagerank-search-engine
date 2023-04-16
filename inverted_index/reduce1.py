@@ -28,10 +28,13 @@ def reduce_one_group(key, group):
     group = list(group) #needed? not iterated over more than once
     nk = 0
     docs = []
+    N = 0
     for line in group:
         # increase nk by count
         value = line.split("\t")[1]
-        value_dict = json.loads(value) #  converts to dict
+        # Split at the space to separate N from the dict
+        N, val_dic = value.partition(" ")
+        value_dict = json.loads(val_dic) #  converts to dict
         # Add value to total_count (sould increment by one)
         nk += value_dict['count']
         # add doc_id and doc_text to docs
