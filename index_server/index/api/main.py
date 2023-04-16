@@ -123,13 +123,21 @@ def get_hit_results(clean_query, weight):
 
     # Find the freq of each word in the query
     query_tf = count_query_tf(clean_query)
+    # If no terms, return empty
     if query_tf is None:
         return []
+
     # calc query vector
     query_vector = calc_query_vector(query_tf)
+    # Not all terms are found in inverted index, return empty
+    if query_vector is None:
+        return []
 
     # Find all the docs that contain all of the query words
     all_docs = get_query_docs(query_tf)
+    # If no doc w/ all terms is found, return empty
+    if all_docs is None:
+        return []
     
     # key is the docid, the value is the doc's vector
     doc_vectors_dict = calc_doc_vector(all_docs, query_tf)
@@ -192,6 +200,9 @@ def calc_query_vector(query):
     query_vector = []
     
     for term, freq in query.items():
+        # If term doesn't exist in inverted index, no hits can be found
+        if term not in inverted_index:
+            return None
         # Get the idf from the inverted_index
         idf = float(inverted_index[term]["idf"])
         one_position = freq * idf
