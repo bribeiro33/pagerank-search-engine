@@ -11,6 +11,8 @@ stopwords = set()
 pagerank = {}
 inverted_index = {}
 # -----------------     Main functions    ----------------- #
+
+
 @index.app.route("/api/v1/", methods=["GET"])
 def get_services():
     """Return a list of services available."""
