@@ -16,9 +16,9 @@ import sys
 import itertools
 import json
 
+
 # Find all docs that contain ti for all i
 # sorted docs by id
-
 def reduce_one_group(key, group):
     """Reduce one group."""
     group = list(group)
@@ -29,16 +29,12 @@ def reduce_one_group(key, group):
         # increase nk by count
         key, value = line.split("\t")
         # Split at the space to separate N from the dict
-<<<<<<< HEAD
         output_parts = value.strip().split(' ', 1)
         N = int(output_parts[0])
         val_dic = output_parts[1]
 
-        value_dict = json.loads(val_dic) #  converts to dict
-=======
-        N, val_dic = value.partition(" ")
         value_dict = json.loads(val_dic)  # converts to dict
->>>>>>> c496049 (passing pytest)
+
         # Add value to total_count (sould increment by one)
         nk += value_dict['count']
         # add doc_id and doc_text to docs
