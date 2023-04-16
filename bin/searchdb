@@ -6,38 +6,46 @@ set -x
 
 # Sanity check command line options
 usage() {
-  echo "Usage: $0 (create|destroy|reset)"
+    echo "Usage: $0 (create|destroy|reset)"
 }
 
 # i have definitely done SOMETHING wrong. also this part is from p3 idk what it is
+# There needs to be one command line arg given w/ the exec
+# If there isn't one, the usage func ^^^ runs and prints out the santity check
 if [ $# -ne 1 ]; then
-  usage
-  exit 1
+    usage
+    exit 1
 fi
 
-# Parse argument.  $1 is the first argument
-case $1 in
-  "create")
+create_db() {
     # When db already exists, exit nonzero
-    FILE=var/
-    if [ -f "$FILE" ]; then
+    if [ -f "var/search.sqlite3" ]; then
         echo "Error: database already exists"
         exit 1
     else
         mkdir -p var/
         sqlite3 var/search.sqlite3 < search_server/search/sql/search.sql
     fi
+}
+
+destroy_db() {
+    rm -f var/search.sqlite3
+}
+
+# Parse argument.  $1 is the first argument
+case $1 in
+    "create")
+        create_db
     ;;
 
 
-  "destroy")
-	rm -f var/search.sqlite3
+    "destroy")
+        destroy_db
     ;;
 
 
-  "reset")
-  	rm -f var/search.sqlite3
-    mkdir -p var/
-    sqlite3 var/search.sqlite3 < search_server/search/sql/search.sql
+    "reset")
+        destroy_db
+        create_db
     ;;
 esac
