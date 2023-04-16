@@ -31,7 +31,7 @@
                     <div class="no_results">No search results found!</div>
                 {% else %}
                 <!-- show max the top 10 docs in ranked order-->
-                {% for doc in top10docs %}
+                {% for doc in search_results %}
                 <div class="doc">
                     <!-- if the document exists -->
                     {% if doc.url %}
