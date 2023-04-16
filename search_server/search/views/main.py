@@ -1,7 +1,7 @@
 """Search Server views/main.py"""
 
 import heapq
-from threading import Thread, Event
+from threading import Thread, Event, Lock
 
 import flask
 import requests
@@ -43,16 +43,21 @@ def show_index():
         index_urls = search.app.config["SEARCH_INDEX_SEGMENT_API_URLS"]
         # Use threads for concurrent requests
         threads = []
-        event = Event()
-        for url in index_urls:
+        
+        # Create a list of Event objects
+        events = [Event() for _ in range(3)]
+        
+        for i, url in enumerate(index_urls):
             thread = Thread(target=get_index, args=(query, weight, url, 
-                                                    top10_results, event))
+                                                    top10_results, events[i]))
             threads.append(thread)
             thread.start()
 
-
+        # Wait for all events to be set
+        events[0].wait()
+        events[1].wait()
+        events[2].wait()
         # Need all results from 3 api requests before merging the results
-        event.wait()
         for thread in threads:
             thread.join()
 
