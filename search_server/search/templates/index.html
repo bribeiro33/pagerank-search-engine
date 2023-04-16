@@ -6,13 +6,12 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <title>ask485?</title>
 </head>
 
 <body>
     <div class="feed">
-        <div class="ask485">
-            <title>ask485?</title>
-        </div>
+        <div class="ask485">ask485?</div>
         <div class="search_bar">
             <form action="/" method="GET">
                 <div><input type="text" name="q" value="{{ query }}" /></div>
@@ -32,14 +31,14 @@
                 {% for doc in search_results %}
                     <div class="doc">
                         <!-- if the document exists -->
-                        {% if doc.url %}
-                            <a class="doc_url" href="{{ doc.url }}">{{ doc.url }}</a>
+                        {% if doc.doc_url %}
+                            <a class="doc_url" href="{{ doc.doc_url }}">{{ doc.doc_url }}</a>
                         {% else %}
                             <a class="doc_url">No url available</a>
                         {% endif %}
-                        <div class="doc_title">{{ doc.title }}</div>
-                        {% if doc.summary %}
-                            <div class="doc_summary">{{ doc.summary }}</div>
+                        <div class="doc_title">{{ doc.doc_title }}</div>
+                        {% if doc.doc_summary %}
+                            <div class="doc_summary">{{ doc.doc_summary }}</div>
                         {% else %}
                             <div class="doc_summary"> No summary available </div>
                         {% endif %}
