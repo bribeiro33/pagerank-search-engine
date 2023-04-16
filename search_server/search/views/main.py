@@ -16,9 +16,15 @@ def get_index(query, weight, index_url, search_results):
     # Get search results
     response = requests.get(search)
     if response:
+<<<<<<< HEAD
         # check, do I need to do any sort of []?
         search_results.append(response.json())
 
+=======
+        # response is a list not dict bc dict doesn't work w/ heapq.merge
+        search_results.append(response.json()["hits"]) #check, do I need to do any sort of []?, 
+        # resp: no sort, sorts done in index server
+>>>>>>> ee0e974 (closer search server)
 
 @search.app.route('/')
 def show_index():
@@ -43,6 +49,7 @@ def show_index():
         # Use threads for concurrent requests
         threads = []
         for url in index_urls:
+<<<<<<< HEAD
             thread = Thread(target=get_index,
                             args=(query, weight, url, top10_results))
             threads.append(thread)
@@ -52,22 +59,50 @@ def show_index():
         for search_result in heapq.merge(*top10_results):
 
             # Get all docs
+=======
+            thread = Thread(target=get_index, args=(query, weight, url, 
+                                                    top10_results))
+            threads.append(thread)
+            thread.start()
+
+
+        # Need all results from 3 api requests before merging the results
+        for thread in threads:
+            thread.join()
+
+        connection = search.model.get_db()
+        final_results = []
+        completed_results = False
+        # loops through each docid in the merged doc response
+        # need to sort by the score values of each docid in desc order
+        for pair in heapq.merge(*top10_results, 
+                                             key=lambda x: x["score"],
+                                             reverse=True):
+            if completed_results:
+                break
+            # Get all the doc's info with curr_docid
+>>>>>>> ee0e974 (closer search server)
             cur = connection.execute(
                 "SELECT * FROM Documents WHERE docid = ?",
-                (search_result["docid"],)
+                (pair['docid'],)
             )
             document = cur.fetchone()
             # Get up to 10 search results to the context, no more
-            if len(top10_results) < 10:
-                top10_results.append({
+            if len(final_results) < 10:
+                final_results.append({
                     "doc_url": document["url"],
                     "doc_title": document["title"],
                     "doc_summary": document["summary"],
                 })
+            else:
+                completed_results = True
 
+<<<<<<< HEAD
         for thread in threads:
             thread.join()
 
+=======
+>>>>>>> ee0e974 (closer search server)
         # Errorcheck weight (idk if this is necessary)
         if weight < 0.0:
             weight = 0
@@ -75,8 +110,8 @@ def show_index():
             weight = 1
 
         context = {
-            "numdocs": len(top10_results),
-            "search_results": top10_results,
+            "numdocs": len(final_results),
+            "search_results": final_results,
             "query": query,
             "weight": weight
         }
