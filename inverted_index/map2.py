@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Map 1.
+
 Make key term and doc_id tuple, find tfik in reduce.
 input:
 key: t1 val: {"N": N, "nk": n1,

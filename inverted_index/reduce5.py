@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Reduce 5.
+
 Sort and output inverted index according to spec.
 
 input:

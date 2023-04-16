@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Reduce 3.
+
 Calc idfk = log(n/nk)
 input:
 key: t1 val: {"N": N, "nk": n1,

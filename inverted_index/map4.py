@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Map 4.
+
 Make key doc_i, find  di [norm factor] in reduce.
 
 input:

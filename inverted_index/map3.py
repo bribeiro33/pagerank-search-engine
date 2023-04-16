@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Map 1.
+
 Pass through, Calc idfk e.i.log(n/nk) in reduce
 input:
 key: t1 val: {"N": N, "nk": n1,

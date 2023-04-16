@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Reduce 2.
+
 Calculate tfik (# times a termk appears in doci)
 input:
 key: t1 val: {"N": N, "nk": n1,
@@ -17,7 +18,6 @@ document	{"N": 3, "nk": 4, "docs": ["1", 2]}
 document	{"N": 3, "nk": 4, "docs": ["2", 1]}
 document	{"N": 3, "nk": 4, "docs": ["3", 1]}
 """
-
 import sys
 import itertools
 import json
@@ -27,7 +27,6 @@ import re
 
 def reduce_one_group(key, group):
     """Reduce one group."""
-
     # Each line is a term, file id pairing
     # The number of lines in the group = the number of times
     # the term appears in the doc

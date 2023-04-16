@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Reduce 1.
+
 Find all docs that contain tk for all k
 and calc nk (num of docs containing tk)
 input:

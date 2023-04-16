@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Map 5.
+
 Format info to print out correctly into 3 segments in reduce.
 
 input:

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Reduce 4.
+
 Calc |di| e.i. norm factor.
 input:
 key: docid_1 val: t_k tf(1)k idfk

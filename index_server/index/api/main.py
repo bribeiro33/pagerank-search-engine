@@ -128,7 +128,6 @@ def query_cleaning(dirty_query):
 
 def get_hit_results(clean_query, weight):
     """Return the hits corresponding to the query."""
-
     # Find the freq of each word in the query
     query_tf = count_query_tf(clean_query)
     # If no terms, return empty
@@ -255,7 +254,7 @@ def calc_doc_vector(all_docid_set, query_dict):
 
 
 def calc_tf_idf(query_vec, doc_vec_dict):
-    """Calculates the tf-idf score for all the documents."""
+    """Calculate the tf-idf score for all the documents."""
     global inverted_index
     tf_idf_dict = {}
 
@@ -272,7 +271,7 @@ def calc_tf_idf(query_vec, doc_vec_dict):
 
 
 def calc_weighted_score(tf_idf_dict, weight):
-    """Calc the weighted score for each doc w/ pagerank, tfidf, and weight"""
+    """Calc the weighted score for each doc w/ pagerank, tfidf, and weight."""
     global pagerank
     weighted_scores = []
     for docid, tf_idf in tf_idf_dict.items():
@@ -289,7 +288,7 @@ def calc_weighted_score(tf_idf_dict, weight):
 
 # -----------------     calc_tf_idf helpers    ----------------- #
 def dot_prod(vec_a, vec_b):
-    """Calculates the dot product of two vectors."""
+    """Calculate the dot product of two vectors."""
     if len(vec_a) != len(vec_b):
         raise ValueError("Vectors must have the same length, error earlier")
 
@@ -300,7 +299,7 @@ def dot_prod(vec_a, vec_b):
 
 
 def calc_query_norm_fac(vector):
-    """Calculates the sqrt of the sum of squares of a vector."""
+    """Calculate the sqrt of the sum of squares of a vector."""
     sum_of_squares = 0
     for element in vector:
         sum_of_squares += element ** 2
