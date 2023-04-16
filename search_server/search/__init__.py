@@ -1,7 +1,7 @@
 """Initializes search server package."""
 from flask import Flask
 
-app = Flask(__name__) 
+app = Flask(__name__)
 app.config.from_object('search.config')
 
 # Load inverted index, stopwords, and pagerank into memory

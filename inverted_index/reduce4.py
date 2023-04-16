@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reduce 4.
-Calc |di| e.i. norm factor. 
-input: 
+Calc |di| e.i. norm factor.
+input:
 key: docid_1 val: t_k tf(1)k idfk
 key: docid_2 val: t_k tf(2)k idfk
 key: docid_2 val: t_l tf(2)k idfl
@@ -25,13 +25,14 @@ document	0.0 2 1 1.593512841936855
 import sys
 import itertools
 
-# Calculate norm factor 
+
+# Calculate norm factor
 # 1) For each term, perform (tf * idf)^2
 # 2) Add up all those values
 # 3) don't perform sqrt for inverted index
 def reduce_one_group(key, group):
     """Reduce one group."""
-    group = list(group) # required, as have to iterate trhough twice
+    group = list(group)  # required, as have to iterate trhough twice
     norm_fac = 0
     # the group is all the terms in the doc
     # each line is a term
@@ -40,9 +41,10 @@ def reduce_one_group(key, group):
         _, _, tf, idf = line.split()
         norm_fac += (float(tf) * float(idf)) ** 2
 
-    for line in group: 
+    for line in group:
         docid, term, tf, idf = line.split()
         sys.stdout.write(f"{term}\t{idf} {docid} {tf} {norm_fac}\n")
+
 
 def keyfunc(line):
     """Return the key from a TAB-delimited key-value pair."""

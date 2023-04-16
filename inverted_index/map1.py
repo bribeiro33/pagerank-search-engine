@@ -18,12 +18,12 @@ with open("total_document_count.txt") as infile:
 csv.field_size_limit(sys.maxsize)
 for line in csv.reader(sys.stdin):
     doc_id, doc_title, doc_body = line
-    # Combine both document title and document body by concatenating them, 
+    # Combine both document title and document body by concatenating them,
     # separated by a space.
     doc_text = doc_title + " " + doc_body
     # Remove non-alphanumeric characters (that also aren’t spaces)
     text = re.sub(r"[^a-zA-Z0-9 ]+", "", doc_text)
-    # Case insensitive. 
+    # Case insensitive.
     # Convert upper case characters to lower case using casefold().
     text = text.casefold()
     # Split the text into whitespace-delimited terms.

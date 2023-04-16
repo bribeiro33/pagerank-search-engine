@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Reduce 2.
 Calculate tfik (# times a termk appears in doci)
-input: 
-key: t1 val: {"N": N, "nk": n1, 
+input:
+key: t1 val: {"N": N, "nk": n1,
               "docs": [doc_id_a, doc_id_b]}
 key: t2 val: {"N": N, "nk": n2, "docs": [doc_id_a]}
 
-output: 
-key: t1 val: {"N": N, "nk": n1, 
+output:
+key: t1 val: {"N": N, "nk": n1,
               "docs": [doc_id_i, tfik]}
 key: t2 val: {"N": N, "nk": n2, "docs": [doc_id_j, tfjk]}
 
@@ -24,11 +24,12 @@ import json
 import re
 # Calculate tfik
 
+
 def reduce_one_group(key, group):
     """Reduce one group."""
 
     # Each line is a term, file id pairing
-    # The number of lines in the group = the number of times 
+    # The number of lines in the group = the number of times
     # the term appears in the doc
     key_correct = re.sub(r"[^a-zA-Z0-9 ]+", "", key)
     term, doc_id = key_correct.split()
@@ -42,7 +43,6 @@ def reduce_one_group(key, group):
     # Edit docs to be a list of doc_id and term_freq
     value_dict['docs'] = [doc_id, freq_count]
     sys.stdout.write(f"{term}\t{json.dumps(value_dict)}\n")
-
 
 
 def keyfunc(line):

@@ -5,11 +5,12 @@ import itertools
 # Reduce computes
 # The output should be a single integer.
 
+
 def reduce_one_group(key, group):
     """Reduce one group."""
     total_count = 0
-    group = list(group) # not sure if necessary
-    for line in group: 
+    group = list(group)  # not sure if necessary
+    for line in group:
         # Get the value of the line
         value = int(line.split("\t")[1])
         # Add value to total_count (sould be one)

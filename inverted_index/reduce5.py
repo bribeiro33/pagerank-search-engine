@@ -2,7 +2,7 @@
 """Reduce 5.
 Sort and output inverted index according to spec.
 
-input: 
+input:
 key: docid % 3 val: term docid idf tf norm_fac
 
 e.g. of INPUT
@@ -50,14 +50,15 @@ def reduce_one_group(key, group):
         trimmed_input = [word.strip() for word in line.split()]
         _, term, docid, idf, tf, norm_fac = trimmed_input
         # adds all the vals to
-        if (term, idf) in docs: 
+        if (term, idf) in docs:
             docs[(term, idf)].extend([docid, tf, norm_fac])
-        else: 
+        else:
             docs[(term, idf)] = [docid, tf, norm_fac]
 
     for term, idf in docs:
         final_docs = " ".join(docs[(term, idf)])
         sys.stdout.write(f"{term} {idf} {final_docs}\n")
+
 
 def keyfunc(line):
     """Return the key from a TAB-delimited key-value pair."""

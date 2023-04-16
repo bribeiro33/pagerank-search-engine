@@ -8,6 +8,7 @@ import requests
 import search
 from flask import render_template, request
 
+
 def get_index(query, weight, index_url, search_results):
     """Search index and get URL"""
     # Construct search
@@ -15,7 +16,9 @@ def get_index(query, weight, index_url, search_results):
     # Get search results
     response = requests.get(search)
     if response:
-        search_results.append(response.json()) #check, do I need to do any sort of []?
+        # check, do I need to do any sort of []?
+        search_results.append(response.json())
+
 
 @search.app.route('/')
 def show_index():
@@ -38,15 +41,16 @@ def show_index():
         top10_results = []
         index_urls = search.app.config["SEARCH_INDEX_SEGMENT_API_URLS"]
         # Use threads for concurrent requests
-        threads = []       
+        threads = []
         for url in index_urls:
-            thread = Thread(target=get_index, args=(query, weight, url, top10_results))
+            thread = Thread(target=get_index,
+                            args=(query, weight, url, top10_results))
             threads.append(thread)
             thread.start()
-        
+
         connection = search.model.get_db()
         for search_result in heapq.merge(*top10_results):
-            
+
             # Get all docs
             cur = connection.execute(
                 "SELECT * FROM Documents WHERE docid = ?",
@@ -63,7 +67,7 @@ def show_index():
 
         for thread in threads:
             thread.join()
-        
+
         # Errorcheck weight (idk if this is necessary)
         if weight < 0.0:
             weight = 0

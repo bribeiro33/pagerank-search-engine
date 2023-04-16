@@ -3,6 +3,7 @@ import sqlite3
 import flask
 import search
 
+
 def dict_factory(cursor, row):
     """Convert database row objects to a dictionary keyed on column name.
 
@@ -10,6 +11,7 @@ def dict_factory(cursor, row):
     template.  Note that this would be inefficient for large queries.
     """
     return {col[0]: row[idx] for idx, col in enumerate(cursor.description)}
+
 
 def get_db():
     """Open a new database connection.
@@ -40,5 +42,3 @@ def close_db(error):
     if sqlite_db is not None:
         sqlite_db.commit()
         sqlite_db.close()
-
-
