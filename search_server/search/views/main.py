@@ -16,15 +16,9 @@ def get_index(query, weight, index_url, search_results):
     # Get search results
     response = requests.get(search)
     if response:
-<<<<<<< HEAD
-        # check, do I need to do any sort of []?
-        search_results.append(response.json())
-
-=======
         # response is a list not dict bc dict doesn't work w/ heapq.merge
         search_results.append(response.json()["hits"]) #check, do I need to do any sort of []?, 
         # resp: no sort, sorts done in index server
->>>>>>> ee0e974 (closer search server)
 
 @search.app.route('/')
 def show_index():
@@ -49,17 +43,6 @@ def show_index():
         # Use threads for concurrent requests
         threads = []
         for url in index_urls:
-<<<<<<< HEAD
-            thread = Thread(target=get_index,
-                            args=(query, weight, url, top10_results))
-            threads.append(thread)
-            thread.start()
-
-        connection = search.model.get_db()
-        for search_result in heapq.merge(*top10_results):
-
-            # Get all docs
-=======
             thread = Thread(target=get_index, args=(query, weight, url, 
                                                     top10_results))
             threads.append(thread)
@@ -81,7 +64,6 @@ def show_index():
             if completed_results:
                 break
             # Get all the doc's info with curr_docid
->>>>>>> ee0e974 (closer search server)
             cur = connection.execute(
                 "SELECT * FROM Documents WHERE docid = ?",
                 (pair['docid'],)
@@ -97,12 +79,6 @@ def show_index():
             else:
                 completed_results = True
 
-<<<<<<< HEAD
-        for thread in threads:
-            thread.join()
-
-=======
->>>>>>> ee0e974 (closer search server)
         # Errorcheck weight (idk if this is necessary)
         if weight < 0.0:
             weight = 0
