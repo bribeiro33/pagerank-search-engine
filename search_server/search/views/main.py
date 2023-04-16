@@ -1,7 +1,7 @@
 """Search Server views/main.py"""
 
 import heapq
-from threading import Thread
+from threading import Thread, Event
 
 import flask
 import requests
@@ -9,7 +9,7 @@ import search
 from flask import render_template, request
 
 
-def get_index(query, weight, index_url, search_results):
+def get_index(query, weight, index_url, search_results, event):
     """Search index and get URL"""
     # Construct search
     search = f"{index_url}?q={query}&w={weight}"
@@ -19,6 +19,7 @@ def get_index(query, weight, index_url, search_results):
         # response is a list not dict bc dict doesn't work w/ heapq.merge
         search_results.append(response.json()["hits"]) #check, do I need to do any sort of []?, 
         # resp: no sort, sorts done in index server
+    event.set()
 
 @search.app.route('/')
 def show_index():
@@ -42,9 +43,10 @@ def show_index():
         index_urls = search.app.config["SEARCH_INDEX_SEGMENT_API_URLS"]
         # Use threads for concurrent requests
         threads = []
+        event = Event()
         for url in index_urls:
             thread = Thread(target=get_index, args=(query, weight, url, 
-                                                    top10_results))
+                                                    top10_results, event))
             threads.append(thread)
             thread.start()
 
