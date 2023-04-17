@@ -18,7 +18,6 @@ def get_index(query, weight, index_url, search_results, event):
     if response:
         # response is a list not dict bc dict doesn't work w/ heapq.merge
         search_results.append(response.json()["hits"])
-        # resp: no sort, sorts done in index server
     event.set()
 
 
@@ -34,7 +33,8 @@ def show_index():
             "numdocs": 0,
             "search_results": [],
             "query": query,
-            "weight": weight
+            "weight": weight,
+            "empty": True
         }
         return flask.render_template("index.html", **context)
     # If query NOT empty, should display results
@@ -96,7 +96,8 @@ def show_index():
         "numdocs": len(final_results),
         "search_results": final_results,
         "query": query,
-        "weight": weight
+        "weight": weight,
+        "empty": False
     }
 
     return render_template("index.html", **context)
