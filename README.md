@@ -30,7 +30,8 @@
 ### Run Bash Scripts
 1. **Install dependencies:** ```./bin/install ```
 2. **Run the Pipeline** ```./pipeline.sh input```
-3. **Manage Index Servers** 
+   </br><sub>Not necessary as the index has already been created within index_server/index/inverted_index/</sub>
+4. **Manage Index Servers** 
 - Start: ```./bin/index start```
 - Stop: ```./bin/index stop```
 - Restart: ```./bin/index restart```
