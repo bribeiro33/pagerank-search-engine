@@ -11,8 +11,7 @@
 - Passes pylint, pycodestyle, pydocstyle
 - Bash scripts to simplify running index server, search server, and search database
 
-![image](https://github.com/bribeiro33/pagerank-search-engine/assets/53235549/575760e0-8c40-49ae-9bd5-0e29fca07e47)
-
+<img width="1371" alt="Screenshot 2024-06-24 at 4 11 44 PM" src="https://github.com/bribeiro33/pagerank-search-engine/assets/53235549/6d56bc6b-2222-4bd2-885b-fc852f7126a8">
 
 ## Key files
 1. **inverted_index**
